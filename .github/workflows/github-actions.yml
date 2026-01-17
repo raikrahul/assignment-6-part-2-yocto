@@ -18,24 +18,10 @@ jobs:
                  ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
           - name: Run build
             timeout-minutes: 600
-            run: |
-               docker run --rm \
-                 -v $SSH_AUTH_SOCK:/ssh-agent -e SSH_AUTH_SOCK=/ssh-agent \
-                 -e GIT_SSH_COMMAND="ssh -o StrictHostKeyChecking=no" \
-                 -v ${GITHUB_WORKSPACE}:${GITHUB_WORKSPACE} \
-                 -v /home/r/Desktop/linux-sysprog-buildroot/assignment6/part2/build:/home/r/Desktop/linux-sysprog-buildroot/assignment6/part2/build \
-                 cuaesd/aesd-autotest:24-assignment6-yocto \
-                 --workdir=${GITHUB_WORKSPACE} \
-                 ./build.sh
+            run: ./build.sh
           - name: Cleanup
             if: always()
-            run: |
-              ssh-add -D
+            run: ssh-add -D
           - name: Run full test
             timeout-minutes: 15
-            run: |
-               docker run --rm \
-                 -v ${GITHUB_WORKSPACE}:${GITHUB_WORKSPACE} \
-                 cuaesd/aesd-autotest:assignment6-yocto \
-                 --workdir=${GITHUB_WORKSPACE} \
-                 ./full-test.sh
+            run: ./full-test.sh
