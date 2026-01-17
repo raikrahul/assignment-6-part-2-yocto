@@ -84,3 +84,10 @@ fi
 
 set -e
 bitbake core-image-aesd
+
+# Disable network isolation to avoid permission errors
+CONFLINE="BB_NO_NETWORK = \"0\""
+if ! grep -q "BB_NO_NETWORK" conf/local.conf; then
+        echo "Append ${CONFLINE} in the local.conf file"
+        echo ${CONFLINE} >> conf/local.conf
+fi
