@@ -37,15 +37,15 @@ fi
 # Limit Parallelism to prevent OOM
 # Force update if exists, append if not
 if grep -q "BB_NUMBER_THREADS" conf/local.conf; then
-	sed -i 's/BB_NUMBER_THREADS = .*/BB_NUMBER_THREADS = "4"/' conf/local.conf
+	sed -i 's/BB_NUMBER_THREADS = .*/BB_NUMBER_THREADS = "6"/' conf/local.conf
 else
-	echo 'BB_NUMBER_THREADS = "4"' >> conf/local.conf
+	echo 'BB_NUMBER_THREADS = "6"' >> conf/local.conf
 fi
 
 if grep -q "PARALLEL_MAKE" conf/local.conf; then
-	sed -i 's/PARALLEL_MAKE = .*/PARALLEL_MAKE = "-j 4"/' conf/local.conf
+	sed -i 's/PARALLEL_MAKE = .*/PARALLEL_MAKE = "-j 6"/' conf/local.conf
 else
-	echo 'PARALLEL_MAKE = "-j 4"' >> conf/local.conf
+	echo 'PARALLEL_MAKE = "-j 6"' >> conf/local.conf
 fi
 
 
