@@ -35,16 +35,17 @@ fi
 
 
 # Limit Parallelism to prevent OOM
-CONFLINE="BB_NUMBER_THREADS = \"1\""
-if ! grep -q "BB_NUMBER_THREADS" conf/local.conf; then
-	echo "Append ${CONFLINE} in the local.conf file"
-	echo ${CONFLINE} >> conf/local.conf
+# Force update if exists, append if not
+if grep -q "BB_NUMBER_THREADS" conf/local.conf; then
+	sed -i 's/BB_NUMBER_THREADS = .*/BB_NUMBER_THREADS = "4"/' conf/local.conf
+else
+	echo 'BB_NUMBER_THREADS = "4"' >> conf/local.conf
 fi
 
-CONFLINE="PARALLEL_MAKE = \"-j 1\""
-if ! grep -q "PARALLEL_MAKE" conf/local.conf; then
-	echo "Append ${CONFLINE} in the local.conf file"
-	echo ${CONFLINE} >> conf/local.conf
+if grep -q "PARALLEL_MAKE" conf/local.conf; then
+	sed -i 's/PARALLEL_MAKE = .*/PARALLEL_MAKE = "-j 4"/' conf/local.conf
+else
+	echo 'PARALLEL_MAKE = "-j 4"' >> conf/local.conf
 fi
 
 
