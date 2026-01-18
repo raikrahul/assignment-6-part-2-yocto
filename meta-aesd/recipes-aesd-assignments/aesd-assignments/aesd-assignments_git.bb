@@ -8,7 +8,7 @@ SRC_URI = "git://github.com/raikrahul/assignment-6-native-threaded.git;protocol=
 
 PV = "1.0+git${SRCPV}"
 # TODO: set to reference a specific commit hash in your assignment repo
-SRCREV = "7bbb5bdfe2a14cd280c16abe27309c57e35b5920"
+SRCREV = "33e4acfdde1c9e370fdb509c816703082a8e88f7"
 
 # This sets your staging directory based on WORKDIR, where WORKDIR is defined at 
 # https://docs.yoctoproject.org/ref-manual/variables.html?highlight=workdir#term-WORKDIR
