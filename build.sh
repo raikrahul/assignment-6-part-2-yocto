@@ -51,9 +51,9 @@ if [ -f bitbake.lock ]; then
     rm -f bitbake.lock
 fi
 
-# Surgical clean of corrupted OpenSSL state from previous crash
-# We do this to ensure No 'undefined reference' errors in linking
-bitbake -c cleansstate openssl
+# Surgical clean of corrupted packages from previous crashes
+# We clean openssl (linker issues) and bzip2 (packaging/uid issues)
+bitbake -c cleansstate openssl bzip2
 
 # Final build
 bitbake core-image-aesd
