@@ -51,8 +51,11 @@ if [ -f bitbake.lock ]; then
     rm -f bitbake.lock
 fi
 
+# Nuclear clean of workspace tmp (Safe: work is in sstate-cache)
+# This fixes the 'UID not found' and 'undefined reference' corruption
+rm -rf tmp
+
 # Surgical clean of corrupted packages from previous crashes
-# We clean openssl (linker issues) and bzip2 (packaging/uid issues)
 bitbake -c cleansstate openssl bzip2
 
 # Final build
