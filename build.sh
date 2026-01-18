@@ -47,12 +47,6 @@ if ! grep -q "PARALLEL_MAKE" conf/local.conf; then
 	echo ${CONFLINE} >> conf/local.conf
 fi
 
-# Add rm_work (Disk Space Optimization)
-CONFLINE="INHERIT += \"rm_work\""
-if ! grep -q "rm_work" conf/local.conf; then
-	echo "Append ${CONFLINE} in the local.conf file"
-	echo ${CONFLINE} >> conf/local.conf
-fi
 
 set -e
 bitbake core-image-aesd
