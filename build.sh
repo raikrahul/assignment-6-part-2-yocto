@@ -34,21 +34,26 @@ fi
 
 
 
-# Limit Parallelism to prevent OOM
 # Force update if exists, append if not
-if grep -q "BB_NUMBER_THREADS" conf/local.conf; then
-	sed -i 's/BB_NUMBER_THREADS = .*/BB_NUMBER_THREADS = "4"/' conf/local.conf
-else
-	echo 'BB_NUMBER_THREADS = "4"' >> conf/local.conf
-fi
-
-if grep -q "PARALLEL_MAKE" conf/local.conf; then
-	sed -i 's/PARALLEL_MAKE = .*/PARALLEL_MAKE = "-j 4"/' conf/local.conf
-else
-	echo 'PARALLEL_MAKE = "-j 4"' >> conf/local.conf
+if [ -f conf/local.conf ]; then
+    sed -i 's/BB_NUMBER_THREADS = .*/BB_NUMBER_THREADS = "6"/' conf/local.conf
+    sed -i 's/PARALLEL_MAKE = .*/PARALLEL_MAKE = "-j 6"/' conf/local.conf
+    if ! grep -q "rm_work" conf/local.conf; then
+        echo 'INHERIT += "rm_work"' >> conf/local.conf
+    fi
 fi
 
 set -e
+
+# Cleanup any stale bitbake server or locks from previous hard crash
+if [ -f bitbake.lock ]; then
+    echo "Found stale lock, cleaning up..."
+    rm -f bitbake.lock
+fi
+
 # Surgical clean of corrupted OpenSSL state from previous crash
+# We do this to ensure No 'undefined reference' errors in linking
 bitbake -c cleansstate openssl
+
+# Final build
 bitbake core-image-aesd
